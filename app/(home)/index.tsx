@@ -1,8 +1,16 @@
 import { AntDesign, Entypo, Feather, Ionicons } from '@expo/vector-icons'
-import { Tabs } from 'expo-router'
+import { Tabs, useLocalSearchParams, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native'
+import {
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View
+} from 'react-native'
 import DatePicker from 'react-native-date-ranges'
 import {
   BottomModal,
@@ -12,16 +20,16 @@ import {
   ModalTitle,
   SlideAnimation
 } from 'react-native-modals'
-import Header from '../components/Header'
-import fs from '../utils/fontNormalize'
+import Header from '../../components/Header'
+import fs from '../../utils/fontNormalize'
 
-type DatePickerState = {
+export type DatePickerState = {
   startDate: string
   endDate: string
 }
 
 export default function Home() {
-  const [setselectedDate, setSetselectedDate] = useState<DatePickerState>({
+  const [selectedDate, setSelectedDate] = useState<DatePickerState>({
     startDate: '',
     endDate: ''
   })
@@ -29,6 +37,10 @@ export default function Home() {
   const [adults, setAdults] = useState(2)
   const [children, setChildren] = useState(0)
   const [modalVisible, setModalVisible] = useState(false)
+
+  const router = useRouter()
+
+  const params = useLocalSearchParams()
 
   function customButton(onConfirm: VoidFunction) {
     return (
@@ -107,10 +119,17 @@ export default function Home() {
                 borderWidth: fs(2),
                 paddingVertical: fs(15)
               }}
+              onPress={function () {
+                router.push('/search')
+              }}
             >
               <Feather name='search' size={fs(24)} color='black' />
               <TextInput
-                placeholder='Enter your destination'
+                placeholder={
+                  params.input
+                    ? (params.input as string)
+                    : 'Enter your destination'
+                }
                 placeholderTextColor='black'
               />
             </Pressable>
@@ -157,10 +176,10 @@ export default function Home() {
                   return customButton(onConfirm)
                 }}
                 onConfirm={function ({ startDate, endDate }: DatePickerState) {
-                  setSetselectedDate({ startDate, endDate })
+                  setSelectedDate({ startDate, endDate })
                 }}
                 allowFontScaling={false}
-                placeholder={'Apr 27, 2018 → Jul 10, 2018'}
+                placeholder={'Select a date'}
                 mode={'range'}
               />
             </Pressable>
@@ -181,7 +200,7 @@ export default function Home() {
             >
               <Ionicons name='person-outline' size={fs(24)} color='black' />
               <TextInput
-                placeholder='1 room * 2 adults * 0 children'
+                placeholder={`${rooms} room * ${adults} adults * ${children} children`}
                 placeholderTextColor='red'
               />
             </Pressable>
@@ -193,6 +212,39 @@ export default function Home() {
                 borderWidth: fs(2),
                 paddingVertical: fs(15),
                 backgroundColor: '#2a52be'
+              }}
+              onPress={function () {
+                if (!params.input || !selectedDate.startDate) {
+                  return Alert.alert(
+                    'Invalid Details',
+                    'Please enter all the details',
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress() {},
+                        style: 'cancel'
+                      },
+                      {
+                        text: 'OK',
+                        onPress() {}
+                      }
+                    ],
+                    { cancelable: false }
+                  )
+                }
+
+                router.push({
+                  pathname: '/places',
+                  params: {
+                    rooms,
+                    adults,
+                    children,
+                    selectedDate: JSON.stringify(
+                      selectedDate
+                    ) as unknown as DatePickerState,
+                    place: params.input as string
+                  }
+                })
               }}
             >
               <Text
@@ -207,6 +259,131 @@ export default function Home() {
               </Text>
             </Pressable>
           </View>
+
+          <Text
+            style={{
+              marginHorizontal: fs(20),
+              fontSize: fs(17),
+              fontWeight: '500'
+            }}
+          >
+            Travel More spend less
+          </Text>
+
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <Pressable
+              style={{
+                width: fs(200),
+                height: fs(150),
+                marginTop: fs(10),
+                backgroundColor: '#003580',
+                borderRadius: fs(10),
+                padding: fs(20),
+                marginHorizontal: fs(20)
+              }}
+            >
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: fs(15),
+                  fontWeight: 'bold',
+                  marginVertical: fs(7)
+                }}
+              >
+                Genius
+              </Text>
+
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: fs(15),
+                  fontWeight: '500'
+                }}
+              >
+                You are at genius level one in our loyalty program
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={{
+                width: fs(200),
+                height: fs(150),
+                marginTop: fs(10),
+                borderColor: '#e0e0e0',
+                borderWidth: fs(2),
+                borderRadius: fs(10),
+                padding: fs(20),
+                marginHorizontal: fs(10)
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: fs(15),
+                  fontWeight: 'bold',
+                  marginVertical: fs(7)
+                }}
+              >
+                15% Discount
+              </Text>
+
+              <Text
+                style={{
+                  fontSize: fs(15),
+                  fontWeight: '500'
+                }}
+              >
+                Complete 5 stays to unlock level 2
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={{
+                width: fs(200),
+                height: fs(150),
+                marginTop: fs(10),
+                borderColor: '#e0e0e0',
+                borderWidth: fs(2),
+                borderRadius: fs(10),
+                padding: fs(20),
+                marginHorizontal: fs(20)
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: fs(15),
+                  fontWeight: 'bold',
+                  marginVertical: fs(7)
+                }}
+              >
+                10% Discount
+              </Text>
+
+              <Text
+                style={{
+                  fontSize: fs(15),
+                  fontWeight: '500'
+                }}
+              >
+                Enjoy Discounts at properties worldwide
+              </Text>
+            </Pressable>
+          </ScrollView>
+
+          <Pressable
+            style={{
+              marginBottom: fs(80),
+              marginTop: fs(40),
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <Image
+              style={{ width: fs(200), height: fs(50), resizeMode: 'cover' }}
+              source={{
+                uri: 'https://assets.stickpng.com/thumbs/5a32a821cb9a85480a628f8f.png'
+              }}
+            />
+          </Pressable>
         </ScrollView>
       </View>
 
@@ -263,7 +440,7 @@ export default function Home() {
                   backgroundColor: '#e0e0e0'
                 }}
                 onPress={function () {
-                  if (rooms > 0) {
+                  if (rooms > 1) {
                     setRooms(function (prev) {
                       return prev - 1
                     })
@@ -349,7 +526,7 @@ export default function Home() {
                   backgroundColor: '#e0e0e0'
                 }}
                 onPress={function () {
-                  if (adults > 0) {
+                  if (adults > 1) {
                     setAdults(function (prev) {
                       return prev - 1
                     })

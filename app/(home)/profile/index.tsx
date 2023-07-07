@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 import { Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import fs from '../../utils/fontNormalize'
+import fs from '../../../utils/fontNormalize'
 
 export default function Profile() {
   return (

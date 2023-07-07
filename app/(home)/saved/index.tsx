@@ -1,25 +1,21 @@
-import { Ionicons } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 import { Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import fs from '../../utils/fontNormalize'
+import fs from '../../../utils/fontNormalize'
 
-export default function Bookings() {
+export default function Saved() {
   return (
     <>
       <Tabs.Screen
         options={{
           headerShown: false,
-          title: 'Bookings',
+          title: 'Saved',
           tabBarIcon: function ({ focused }) {
             return focused ? (
-              <Ionicons name='notifications' size={fs(24)} color='#003580' />
+              <AntDesign name='heart' size={fs(24)} color='#003580' />
             ) : (
-              <Ionicons
-                name='notifications-outline'
-                size={fs(24)}
-                color='black'
-              />
+              <AntDesign name='hearto' size={fs(24)} color='black' />
             )
           }
         }}
@@ -27,7 +23,7 @@ export default function Bookings() {
 
       <SafeAreaView>
         <View>
-          <Text>Bookings</Text>
+          <Text>Saved</Text>
         </View>
       </SafeAreaView>
     </>
