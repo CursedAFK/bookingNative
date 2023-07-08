@@ -461,3 +461,27 @@ export const places = [
 ]
 
 export type Places = typeof places
+
+export type Properties = {
+  id: string
+  name: string
+  rating: number
+  address: string
+  oldPrice: number
+  newPrice: number
+  latitude: string
+  longitude: string
+  image?: string
+  photos: {
+    id: string
+    image: string
+  }[]
+  rooms: {
+    id: string
+    name: string
+    size: number
+    refundable: string
+    payment: string
+    bed: string
+  }[]
+}

@@ -1,8 +1,10 @@
 import { FontAwesome5, Ionicons, Octicons } from '@expo/vector-icons'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, ScrollView, Text, View } from 'react-native'
 import { DatePickerState } from '../(home)'
+import PropertyCard from '../../components/PropertyCard'
+import { Properties, places } from '../../database/places'
 import fs from '../../utils/fontNormalize'
 
 type ParamsProps = {
@@ -19,6 +21,14 @@ export default function Places() {
   const selectedDate = JSON.parse(
     params.selectedDate as unknown as string
   ) as DatePickerState
+
+  const filteredPlaces = places.filter(function (place) {
+    return place.place.toLowerCase() === params.place.toLowerCase()
+  })
+
+  const allProperties = filteredPlaces.flatMap(function (place) {
+    return place.properties
+  })
 
   return (
     <>
@@ -78,6 +88,21 @@ export default function Places() {
             </Text>
           </Pressable>
         </Pressable>
+
+        <ScrollView style={{ backgroundColor: '#f5f5f5' }}>
+          {allProperties.map(function (property) {
+            return (
+              <PropertyCard
+                key={property.id}
+                property={property as Properties}
+                adults={params.adults}
+                children={params.children}
+                rooms={params.rooms}
+                selectedDate={selectedDate}
+              />
+            )
+          })}
+        </ScrollView>
       </View>
     </>
   )
