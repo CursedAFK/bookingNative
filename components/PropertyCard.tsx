@@ -27,13 +27,14 @@ export default function PropertyCard({
         style={{
           margin: fs(15),
           flexDirection: 'row',
-          backgroundColor: 'white'
+          backgroundColor: 'white',
+          alignItems: 'center'
         }}
       >
         <View>
           <Image
             source={{ uri: property.image }}
-            style={{ height: height / fs(4), width: width - fs(280) }}
+            style={{ height: height / fs(4 * 0.8), width: width - fs(280) }}
           />
         </View>
 
@@ -88,6 +89,57 @@ export default function PropertyCard({
           >
             Price for 1 Night and {adults} adults
           </Text>
+
+          <View
+            style={{
+              marginTop: fs(5),
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: fs(8)
+            }}
+          >
+            <Text
+              style={{
+                fontSize: fs(18),
+                color: 'red',
+                textDecorationLine: 'line-through'
+              }}
+            >
+              {property.oldPrice * adults}
+            </Text>
+
+            <Text
+              style={{
+                fontSize: fs(18),
+                color: 'black'
+              }}
+            >
+              Rs {property.newPrice * adults}
+            </Text>
+          </View>
+
+          <View style={{ marginTop: fs(6) }}>
+            <Text style={{ fontSize: fs(16), color: 'gray' }}>Deluxe Room</Text>
+
+            <Text style={{ fontSize: fs(16), color: 'gray' }}>
+              Hotel Room : 1 bed
+            </Text>
+          </View>
+
+          <View
+            style={{
+              backgroundColor: '#6082b6',
+              paddingVertical: fs(3),
+              borderRadius: fs(5),
+              marginTop: fs(4),
+              width: fs(160),
+              paddingHorizontal: fs(4)
+            }}
+          >
+            <Text style={{ color: 'white', textAlign: 'center' }}>
+              Limited Time deal
+            </Text>
+          </View>
         </View>
       </Pressable>
     </View>
