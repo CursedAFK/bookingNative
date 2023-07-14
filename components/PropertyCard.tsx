@@ -1,4 +1,5 @@
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 import { Dimensions, Image, Pressable, Text, View } from 'react-native'
 import { DatePickerState } from '../app/(home)'
 import { Properties } from '../database/places'
@@ -19,6 +20,8 @@ export default function PropertyCard({
   rooms,
   selectedDate
 }: PropertyCardProps) {
+  const router = useRouter()
+
   const { width, height } = Dimensions.get('window')
 
   return (
@@ -30,6 +33,17 @@ export default function PropertyCard({
           backgroundColor: 'white',
           alignItems: 'center'
         }}
+        onPress={() =>
+          router.push({
+            pathname: `/places/details/${property.name}`,
+            params: {
+              adults,
+              children,
+              rooms,
+              selectedDate: JSON.stringify(selectedDate)
+            }
+          })
+        }
       >
         <View>
           <Image

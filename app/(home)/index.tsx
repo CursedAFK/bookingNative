@@ -1,4 +1,4 @@
-import { AntDesign, Entypo, Feather, Ionicons } from '@expo/vector-icons'
+import { Feather, Ionicons } from '@expo/vector-icons'
 import { Tabs, useLocalSearchParams, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
@@ -84,14 +84,6 @@ export default function Home() {
                 color='white'
                 style={{ marginRight: fs(12) }}
               />
-            )
-          },
-          title: 'Home',
-          tabBarIcon: function ({ focused }) {
-            return focused ? (
-              <Entypo name='home' size={fs(24)} color='#003580' />
-            ) : (
-              <AntDesign name='home' size={fs(24)} color='black' />
             )
           }
         }}

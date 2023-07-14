@@ -1,6 +1,6 @@
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Pressable, Text } from 'react-native'
 import Map, { Marker } from 'react-native-maps'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -24,6 +24,17 @@ const MapView = () => {
     latitude: +property.latitude,
     longitude: +property.longitude
   }))
+
+  useEffect(() => {
+    map.current?.fitToCoordinates(coordinates, {
+      edgePadding: {
+        top: fs(190),
+        left: fs(190),
+        bottom: fs(190),
+        right: fs(190)
+      }
+    })
+  }, [])
 
   return (
     <>
